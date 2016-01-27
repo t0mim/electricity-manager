@@ -8,13 +8,13 @@ import java.time.YearMonth;
  */
 
 @Entity
-public class Consumption {
+public class ConsumptionDTO {
 
     private final long electricityAmount;
     private final Tariff tariff;
     private final YearMonth yearAndMonth;
 
-    private Consumption (ConsumptionBuilder builder) {
+    private ConsumptionDTO(ConsumptionBuilder builder) {
         this.electricityAmount = builder.electricityAmount;
         this.tariff = builder.tariff;
         this.yearAndMonth = builder.yearAndMonth;
@@ -66,8 +66,8 @@ public class Consumption {
         }
 
 
-        public Consumption build() {
-            return new Consumption(this);
+        public ConsumptionDTO build() {
+            return new ConsumptionDTO(this);
         }
 
     }
