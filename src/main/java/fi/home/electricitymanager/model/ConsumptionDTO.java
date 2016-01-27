@@ -1,27 +1,27 @@
 package fi.home.electricitymanager.model;
 
-import javax.persistence.Entity;
 import java.time.YearMonth;
 
-/**
- * Created by tomim on 27/12/15.
- */
-
-@Entity
 public class ConsumptionDTO {
 
-    private final long electricityAmount;
+    private final Long id;
+    private final Long electricityAmount;
     private final Tariff tariff;
     private final YearMonth yearAndMonth;
 
-    private ConsumptionDTO(ConsumptionBuilder builder) {
+    private ConsumptionDTO(Builder builder) {
+        this.id = builder.id;
         this.electricityAmount = builder.electricityAmount;
         this.tariff = builder.tariff;
         this.yearAndMonth = builder.yearAndMonth;
 
     }
 
-    public long getElectricityAmount() {
+    public Long getId() {
+        return id;
+    }
+
+    public Long getElectricityAmount() {
         return electricityAmount;
     }
 
@@ -34,34 +34,40 @@ public class ConsumptionDTO {
     }
 
 
-    public static class ConsumptionBuilder {
+    public static class Builder {
 
-        private long electricityAmount;
+        private Long id;
+        private Long electricityAmount;
         private Tariff tariff;
         private YearMonth yearAndMonth;
 
-        public ConsumptionBuilder() {
+        public Builder() {
 
             yearAndMonth = YearMonth.now();
         }
 
-        public ConsumptionBuilder electricityAmount(long electricityAmount) {
+        public Builder(Long id) {
+            this.id = id;
+            yearAndMonth = YearMonth.now();
+        }
+
+        public Builder electricityAmount(Long electricityAmount) {
             this.electricityAmount = electricityAmount;
             return this;
         }
 
-        public ConsumptionBuilder tariff(Tariff tariff) {
+        public Builder tariff(Tariff tariff) {
             this.tariff = tariff;
             return this;
         }
 
-        public ConsumptionBuilder month(int month) {
-            this.yearAndMonth.withMonth(month);
+        public Builder month(int month) {
+            this.yearAndMonth = this.yearAndMonth.withMonth(month);
             return this;
         }
 
-        public ConsumptionBuilder year(int year) {
-            this.yearAndMonth.withYear(year);
+        public Builder year(int year) {
+            this.yearAndMonth = this.yearAndMonth.withYear(year);
             return this;
         }
 
