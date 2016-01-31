@@ -1,6 +1,7 @@
 package fi.home.electricitymanager.service;
 
 import fi.home.electricitymanager.ElectricitymanagerApplication;
+import fi.home.electricitymanager.exception.ConsumptionNotFoundException;
 import fi.home.electricitymanager.model.ConsumptionDTO;
 import fi.home.electricitymanager.model.Tariff;
 import org.junit.Test;
@@ -22,25 +23,45 @@ public class ConsumptionServiceImplTest {
     @Autowired
     ConsumptionService consumptionService;
 
-    @Test
-    public void testSave() {
-        ConsumptionDTO dto = new ConsumptionDTO.Builder()
-                .tariff(Tariff.DAY)
-                .electricityAmount(new Long(1500))
-                .month(11)
-                .year(2015)
-                .build();
+    private ConsumptionDTO testDto = new ConsumptionDTO.Builder()
+            .tariff(Tariff.DAY)
+            .electricityAmount(new Long(1500))
+            .month(11)
+            .year(2015)
+            .build();
 
-        Long consumptionId = consumptionService.save(dto);
+    @Test(expected = ConsumptionNotFoundException.class)
+    public void testGet_shouldThrowException() throws ConsumptionNotFoundException {
+
+        final Long wrongId = new Long(9999);
+
+        consumptionService.get(wrongId);
+    }
+
+    @Test(expected = Test.None.class)
+    public void testSaveAndGet() throws ConsumptionNotFoundException {
+
+
+        Long consumptionId = consumptionService.save(testDto);
 
         ConsumptionDTO actual = consumptionService.get(consumptionId);
 
-
-        final YearMonth november2015 = YearMonth.of(2015,11);
+        final YearMonth november2015 = YearMonth.of(2015, 11);
 
         assertEquals(new Long(1500), actual.getElectricityAmount());
         assertEquals(Tariff.DAY, actual.getTariff());
         assertEquals(november2015, actual.getYearAndMonth());
+
+    }
+
+    @Test( expected = ConsumptionNotFoundException.class)
+    public void testDelete() throws ConsumptionNotFoundException {
+
+        Long id = consumptionService.save(testDto);
+
+        consumptionService.delete(id);
+
+        consumptionService.get(id);
 
     }
 
