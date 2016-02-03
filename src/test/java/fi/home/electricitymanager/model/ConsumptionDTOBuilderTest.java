@@ -2,6 +2,9 @@ package fi.home.electricitymanager.model;
 
 import org.junit.Test;
 
+import java.time.Month;
+import java.time.Year;
+
 import static org.junit.Assert.assertEquals;
 
 public class ConsumptionDTOBuilderTest {
@@ -19,7 +22,7 @@ public class ConsumptionDTOBuilderTest {
 
         assertEquals(Tariff.DAY, consumptionDTO.getTariff());
         assertEquals(new Long(123), consumptionDTO.getElectricityAmount());
-        assertEquals(12, consumptionDTO.getYearAndMonth().getMonthValue());
-        assertEquals(2015, consumptionDTO.getYearAndMonth().getYear());
+        assertEquals(Month.DECEMBER, consumptionDTO.getMonth());
+        assertEquals(Year.of(2015), consumptionDTO.getYear());
     }
 }

@@ -4,7 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.YearMonth;
+import java.time.Month;
+import java.time.Year;
 
 @Entity
 public class Consumption {
@@ -14,12 +15,13 @@ public class Consumption {
     private Long id;
     private Long electricityAmount;
     private Tariff tariff;
-    private YearMonth yearAndMonth;
-
+    private Year year;
+    private Month month;
 
     public Long getId() {
         return id;
     }
+
 
     public void setId(Long id) {
         this.id = id;
@@ -41,11 +43,15 @@ public class Consumption {
         this.tariff = tariff;
     }
 
-    public YearMonth getYearAndMonth() {
-        return yearAndMonth;
+    public Year getYear() {
+        return year;
     }
 
-    public void setYearAndMonth(YearMonth yearAndMonth) {
-        this.yearAndMonth = yearAndMonth;
+    public void setYear(Year year) {
+        this.year = year;
     }
+
+    public Month getMonth() { return month; }
+
+    public void setMonth(Month month) { this.month = month; }
 }

@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Year;
+import java.util.Collections;
+import java.util.List;
+
 @Repository
 @Transactional(readOnly = true)
 public class ConsumptionServiceImpl implements ConsumptionService {
@@ -24,8 +28,8 @@ public class ConsumptionServiceImpl implements ConsumptionService {
         return new ConsumptionDTO.Builder(consumption.getId())
                 .tariff(consumption.getTariff())
                 .electricityAmount(consumption.getElectricityAmount())
-                .month(consumption.getYearAndMonth().getMonthValue())
-                .year(consumption.getYearAndMonth().getYear())
+                .month(consumption.getMonth().getValue())
+                .year(consumption.getYear().getValue())
                 .build();
     }
 
@@ -34,9 +38,14 @@ public class ConsumptionServiceImpl implements ConsumptionService {
     public Long save(ConsumptionDTO consumptionDTO) {
 
         Consumption consumption = new Consumption();
+
+        if (!consumptionDTO.isNew())
+            consumption.setId(consumptionDTO.getId());
+
         consumption.setElectricityAmount(consumptionDTO.getElectricityAmount());
         consumption.setTariff(consumptionDTO.getTariff());
-        consumption.setYearAndMonth(consumptionDTO.getYearAndMonth());
+        consumption.setYear(consumptionDTO.getYear());
+        consumption.setMonth(consumptionDTO.getMonth());
 
         return repository.saveAndFlush(consumption).getId();
     }
@@ -51,5 +60,13 @@ public class ConsumptionServiceImpl implements ConsumptionService {
             throw new ConsumptionNotFoundException(e.getMessage());
         }
     }
+
+    @Override
+    public List<ConsumptionDTO> findByYear(Year year) {
+        if (year != null)
+            return repository.findByYear(year);
+        return Collections.emptyList();
+    }
+
 
 }
