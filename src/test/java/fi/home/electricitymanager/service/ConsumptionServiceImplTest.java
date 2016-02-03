@@ -109,7 +109,15 @@ public class ConsumptionServiceImplTest {
         assertEquals(1, consumptionsFrom2016.size());
     }
 
-    public ConsumptionDTO generateConsumption(int month, int year) {
+    @Test
+    public void testFindByYear_shouldReturnEmptyList() {
+        List<ConsumptionDTO> emptyList = consumptionService.findByYear(Year.now());
+
+        assertEquals(true, emptyList.isEmpty());
+        assertEquals(0, emptyList.size());
+    }
+
+    private ConsumptionDTO generateConsumption(int month, int year) {
         return new ConsumptionDTO.Builder()
                 .tariff(Tariff.DAY)
                 .electricityAmount(new Long(1500))
