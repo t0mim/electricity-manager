@@ -111,7 +111,7 @@ public class ConsumptionServiceImplTest {
 
     @Test
     public void testFindByYear_shouldReturnEmptyList() {
-        List<ConsumptionDTO> emptyList = consumptionService.findByYear(Year.now());
+        List<ConsumptionDTO> emptyList = consumptionService.findByYear(Year.of(2020));
 
         assertEquals(true, emptyList.isEmpty());
         assertEquals(0, emptyList.size());
