@@ -82,9 +82,17 @@ public class ConsumptionDTO {
 
 
         public ConsumptionDTO build() {
+
+            if(electricityAmount <= 0) {
+                throw new ValidationException("Electricity amount should be greater than zero");
+            }
+
             return new ConsumptionDTO(this);
         }
 
+        public class ValidationException extends RuntimeException {
+            public ValidationException(String message) { super(message); }
+        }
     }
 
 }
